@@ -1,293 +1,1467 @@
+const WEEKLY_TARGET_HOURS = 12;
+
+
 const TRACKS = [
+
   {
-    id:"ir",
-    name:"Incident Response",
-    weeklyTarget:12,
-    type:"DEFENSIVE ANALYSIS",
-    roadmap:[
-      ["Basics",["IR lifecycle","IOC vs IOA","MITRE ATT&CK basics","Windows basics","Linux basics","Networking basics"]],
-      ["Windows",["Event Logs","Sysmon","Registry","Scheduled Tasks","Prefetch","Amcache","LNK / Jump Lists"]],
-      ["Forensics",["Disk imaging","Timeline analysis","Autopsy","FTK Imager","KAPE","Volatility 3"]],
-      ["Network",["Wireshark","PCAP analysis","DNS","HTTP","TLS","Beaconing / C2"]],
-      ["Cases",["Phishing","Malware infection","Credential theft","Ransomware","Lateral movement","Data exfiltration"]],
-      ["Reporting",["Attack timeline","Determine scope","Extract IOCs","ATT&CK mapping","Technical report"]]
+    id: "ir",
+
+    name: "Incident Response",
+
+    type: "DEFENSIVE ANALYSIS",
+
+    roadmap: [
+
+      [
+        "Fundamentals",
+        [
+          "Incident Response Lifecycle",
+          "IOC vs IOA",
+          "MITRE ATT&CK Basics",
+          "Windows Fundamentals",
+          "Linux Fundamentals",
+          "Networking Fundamentals"
+        ]
+      ],
+
+      [
+        "Windows Investigation",
+        [
+          "Windows Event Logs",
+          "Sysmon",
+          "Windows Registry",
+          "Scheduled Tasks",
+          "Prefetch",
+          "Amcache",
+          "LNK Files",
+          "Jump Lists"
+        ]
+      ],
+
+      [
+        "Disk & Memory Forensics",
+        [
+          "Disk Imaging",
+          "Timeline Analysis",
+          "Autopsy",
+          "FTK Imager",
+          "KAPE",
+          "Volatility 3"
+        ]
+      ],
+
+      [
+        "Network Investigation",
+        [
+          "Wireshark",
+          "PCAP Analysis",
+          "DNS Analysis",
+          "HTTP Analysis",
+          "TLS Basics",
+          "Beaconing and C2"
+        ]
+      ]
+
     ]
+
   },
+
+
   {
-    id:"malware",
-    name:"Malware Analysis",
-    weeklyTarget:8,
-    type:"REVERSE ENGINEERING",
-    roadmap:[
-      ["Foundation",["CPU / registers","Stack / heap","x86 / x64","Windows API"]],
-      ["PE & Windows",["Processes / threads","DLLs","Virtual memory","PE headers","Imports / exports","IAT / RVA"]],
-      ["Static",["Hashes","Strings","PEStudio","Detect It Easy","FLOSS","capa"]],
-      ["Dynamic",["Procmon","Process Explorer","TCPView","Wireshark","FakeNet-NG","Regshot"]],
-      ["Reverse Engineering",["x64dbg","WinDbg basics","Ghidra","IDA basics","Control flow","Cross references"]],
-      ["Advanced",["Packing","Unpacking","Obfuscation","Anti-debugging","Shellcode","Config extraction","YARA"]]
+    id: "malware",
+
+    name: "Malware Analysis",
+
+    type: "REVERSE ENGINEERING",
+
+    roadmap: [
+
+      [
+        "Foundation",
+        [
+          "CPU and Registers",
+          "Stack and Heap",
+          "x86 / x64 Assembly",
+          "Windows API"
+        ]
+      ],
+
+      [
+        "PE Analysis",
+        [
+          "PE Headers",
+          "Sections",
+          "Imports",
+          "Exports",
+          "IAT",
+          "RVA"
+        ]
+      ],
+
+      [
+        "Static Analysis",
+        [
+          "Hashes",
+          "Strings",
+          "PEStudio",
+          "Detect It Easy",
+          "FLOSS",
+          "capa"
+        ]
+      ],
+
+      [
+        "Dynamic Analysis",
+        [
+          "Process Monitor",
+          "Process Explorer",
+          "TCPView",
+          "Wireshark",
+          "FakeNet-NG",
+          "Regshot"
+        ]
+      ],
+
+      [
+        "Reverse Engineering",
+        [
+          "x64dbg",
+          "WinDbg",
+          "Ghidra",
+          "IDA",
+          "Control Flow",
+          "Cross References"
+        ]
+      ]
+
     ]
+
   },
+
+
   {
-    id:"cti",
-    name:"Cyber Threat Intelligence",
-    weeklyTarget:6,
-    type:"THREAT RESEARCH",
-    roadmap:[
-      ["Foundation",["Intelligence lifecycle","Tactical / operational / strategic CTI","Intelligence requirements"]],
-      ["IOC & OSINT",["IP / domain / URL / hash","WHOIS","DNS","Passive DNS","Certificates","ASN"]],
-      ["Threat Actors",["APT groups","Cybercrime groups","Ransomware groups","Vendor naming differences"]],
-      ["MITRE ATT&CK",["Tactics","Techniques","Sub-techniques","ATT&CK Navigator"]],
-      ["Infrastructure",["Domain pivoting","IP pivoting","ASN relationships","Infrastructure clustering"]],
-      ["Reporting",["Campaign timeline","Confidence levels","IOC table","ATT&CK mapping","Technical report"]]
+    id: "cti",
+
+    name: "Cyber Threat Intelligence",
+
+    type: "THREAT RESEARCH",
+
+    roadmap: [
+
+      [
+        "CTI Fundamentals",
+        [
+          "Intelligence Lifecycle",
+          "Tactical Intelligence",
+          "Operational Intelligence",
+          "Strategic Intelligence",
+          "Intelligence Requirements"
+        ]
+      ],
+
+      [
+        "IOC & OSINT",
+        [
+          "IP Investigation",
+          "Domain Investigation",
+          "URL Investigation",
+          "WHOIS",
+          "Passive DNS",
+          "Certificates",
+          "ASN"
+        ]
+      ],
+
+      [
+        "Threat Actors",
+        [
+          "APT Groups",
+          "Cybercrime Groups",
+          "Ransomware Groups",
+          "Threat Actor Profiling"
+        ]
+      ],
+
+      [
+        "MITRE ATT&CK",
+        [
+          "Tactics",
+          "Techniques",
+          "Sub-techniques",
+          "ATT&CK Navigator"
+        ]
+      ]
+
     ]
+
   },
+
+
   {
-    id:"core",
-    name:"Core Foundations",
-    weeklyTarget:4,
-    type:"FOUNDATION",
-    roadmap:[
-      ["Systems",["Windows","Linux","Processes / services","Users / permissions"]],
-      ["Networking",["TCP/IP","DNS","HTTP","TLS","SMB","RDP"]],
-      ["Scripting",["Python","PowerShell","Bash","Git","Regex","JSON","SQL"]],
-      ["Security",["Hashing","Encoding","Base64","Logs","Sysmon","MITRE ATT&CK"]],
-      ["Mindset",["Build timelines","Validate assumptions","Correlate artifacts","Document evidence","Assign confidence"]]
+    id: "core",
+
+    name: "Core Foundations",
+
+    type: "TECHNICAL FOUNDATION",
+
+    roadmap: [
+
+      [
+        "Systems",
+        [
+          "Windows",
+          "Linux",
+          "Processes",
+          "Services",
+          "Users and Permissions"
+        ]
+      ],
+
+      [
+        "Networking",
+        [
+          "TCP/IP",
+          "DNS",
+          "HTTP",
+          "TLS",
+          "SMB",
+          "RDP"
+        ]
+      ],
+
+      [
+        "Scripting",
+        [
+          "Python",
+          "PowerShell",
+          "Bash",
+          "Git",
+          "Regex",
+          "JSON",
+          "SQL"
+        ]
+      ]
+
     ]
+
   }
+
 ];
 
-const KEY="personalTrainingV2";
-let state={sessions:[],completed:{}};
 
-function load(){
-  try{
-    const saved=localStorage.getItem(KEY);
-    if(saved) state=JSON.parse(saved);
-  }catch{}
-}
 
-function save(){
-  localStorage.setItem(KEY,JSON.stringify(state));
-}
+const STORAGE_KEY =
+  "personalTrainingV3";
 
-function weekStart(){
-  const d=new Date();
-  const diff=(d.getDay()+6)%7;
-  d.setHours(0,0,0,0);
-  d.setDate(d.getDate()-diff);
-  return d;
-}
 
-function hours(trackId,weekly=false){
-  const start=weekStart();
-  return state.sessions
-    .filter(s=>s.trackId===trackId)
-    .filter(s=>!weekly||new Date(s.date)>=start)
-    .reduce((sum,s)=>sum+s.duration,0);
-}
+let state = {
 
-function total(weekly=false){
-  const start=weekStart();
-  return state.sessions
-    .filter(s=>!weekly||new Date(s.date)>=start)
-    .reduce((sum,s)=>sum+s.duration,0);
-}
+  completed: {},
 
-function fmt(v){
-  v=v||0;
-  const h=Math.floor(v);
-  const m=Math.round((v-h)*60);
-  if(!h&&!m) return "0h";
-  if(h&&!m) return `${h}h`;
-  if(!h&&m) return `${m}m`;
-  return `${h}h ${m}m`;
-}
+  answers: {},
 
-function completedCount(track){
-  let done=0;
-  let total=0;
+  weeklySeconds: 0,
 
-  track.roadmap.forEach(([_,skills],gi)=>{
-    skills.forEach((__,si)=>{
-      total++;
-      if(state.completed[`${track.id}:${gi}:${si}`]) done++;
-    });
-  });
+  timerRunning: false,
 
-  return {done,total};
-}
+  timerStartedAt: null
 
-function render(){
-  document.getElementById("weekTotal").textContent=fmt(total(true));
-  document.getElementById("allTotal").textContent=fmt(total());
+};
 
-  const trackGrid=document.getElementById("tracks");
 
-  trackGrid.innerHTML=TRACKS.map(t=>{
-    const w=hours(t.id,true);
-    const all=hours(t.id);
-    const pct=Math.min(100,(w/t.weeklyTarget)*100);
-    const c=completedCount(t);
+let activeTopic = null;
 
-    return `
-      <article class="track-card" data-track="${t.id}">
-        <div class="track-head">
-          <div class="track-title">
-            <h3>${t.name}</h3>
-            <p>${t.weeklyTarget}h weekly target</p>
-          </div>
-          <div class="track-total">${fmt(all)}</div>
-        </div>
 
-        <div class="track-body">
-          <div class="progress-meta">
-            <span>This week</span>
-            <span>${fmt(w)} / ${t.weeklyTarget}h</span>
-          </div>
 
-          <div class="progress">
-            <div style="width:${pct}%"></div>
-          </div>
+/* =========================
+   LOAD / SAVE
+========================= */
 
-          <div class="track-foot">
-            <span>${c.done}/${c.total} roadmap skills</span>
-            <span class="open">View roadmap →</span>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
+function loadState() {
 
-  document.querySelectorAll(".track-card").forEach(card=>{
-    card.addEventListener("click",()=>{
-      openRoadmap(card.dataset.track);
-    });
-  });
+  try {
 
-  const recent=document.getElementById("recentList");
+    const saved =
+      localStorage.getItem(
+        STORAGE_KEY
+      );
 
-  if(!state.sessions.length){
-    recent.innerHTML=`<div class="empty">No training logged yet.</div>`;
-  }else{
-    recent.innerHTML=[...state.sessions]
-      .sort((a,b)=>new Date(b.date)-new Date(a.date))
-      .slice(0,8)
-      .map(s=>{
-        const t=TRACKS.find(x=>x.id===s.trackId);
-        const d=new Date(s.date).toLocaleDateString(undefined,{day:"2-digit",month:"short"});
 
-        return `
-          <div class="history-item">
-            <div>
-              <strong>${s.topic}</strong>
-              <span>${t?.name||""} · ${d}</span>
-            </div>
-            <div class="history-time">${fmt(s.duration)}</div>
-          </div>
-        `;
-      }).join("");
+    if (saved) {
+
+      const parsed =
+        JSON.parse(saved);
+
+
+      state = {
+
+        ...state,
+
+        ...parsed
+
+      };
+
+    }
+
   }
+
+  catch (error) {
+
+    console.error(
+      error
+    );
+
+  }
+
 }
 
-function openRoadmap(id){
-  const t=TRACKS.find(x=>x.id===id);
-  if(!t) return;
 
-  document.getElementById("roadmapType").textContent=t.type;
-  document.getElementById("roadmapTitle").textContent=t.name;
+function saveState() {
 
-  refreshRoadmapSummary(t);
+  localStorage.setItem(
 
-  const box=document.getElementById("roadmapList");
+    STORAGE_KEY,
 
-  box.innerHTML=t.roadmap.map(([group,skills],gi)=>`
-    <section class="roadmap-group">
-      <h3>${group}</h3>
-      ${skills.map((skill,si)=>{
-        const key=`${id}:${gi}:${si}`;
-        const checked=!!state.completed[key];
+    JSON.stringify(
+      state
+    )
+
+  );
+
+}
+
+
+
+/* =========================
+   LIVE CLOCK
+========================= */
+
+function updateClock() {
+
+  const now =
+    new Date();
+
+
+  document
+    .getElementById(
+      "liveClock"
+    )
+    .textContent =
+      now.toLocaleTimeString(
+        [],
+        {
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit"
+        }
+      );
+
+
+  document
+    .getElementById(
+      "liveDate"
+    )
+    .textContent =
+      now.toLocaleDateString(
+        [],
+        {
+          weekday: "short",
+          day: "2-digit",
+          month: "short",
+          year: "numeric"
+        }
+      );
+
+}
+
+
+
+/* =========================
+   TIMER
+========================= */
+
+function getCurrentSessionSeconds() {
+
+  if (
+    !state.timerRunning ||
+    !state.timerStartedAt
+  ) {
+
+    return 0;
+
+  }
+
+
+  return Math.floor(
+
+    (
+      Date.now() -
+      state.timerStartedAt
+    )
+
+    / 1000
+
+  );
+
+}
+
+
+function getTotalWeekSeconds() {
+
+  return (
+
+    state.weeklySeconds +
+
+    getCurrentSessionSeconds()
+
+  );
+
+}
+
+
+function formatTimer(seconds) {
+
+  const hours =
+    Math.floor(
+      seconds / 3600
+    );
+
+
+  const minutes =
+    Math.floor(
+      (seconds % 3600) / 60
+    );
+
+
+  const secs =
+    seconds % 60;
+
+
+  return [
+
+    hours,
+    minutes,
+    secs
+
+  ]
+
+  .map(
+    value =>
+      String(value)
+      .padStart(2, "0")
+  )
+
+  .join(":");
+
+}
+
+
+function formatHours(seconds) {
+
+  const hours =
+    Math.floor(
+      seconds / 3600
+    );
+
+
+  const minutes =
+    Math.floor(
+      (
+        seconds % 3600
+      )
+      / 60
+    );
+
+
+  return `${hours}h ${minutes}m`;
+
+}
+
+
+function updateTimerUI() {
+
+  const sessionSeconds =
+    getCurrentSessionSeconds();
+
+
+  const weekSeconds =
+    getTotalWeekSeconds();
+
+
+  document
+    .getElementById(
+      "timerDisplay"
+    )
+    .textContent =
+      formatTimer(
+        sessionSeconds
+      );
+
+
+  document
+    .getElementById(
+      "weekTotal"
+    )
+    .textContent =
+      formatHours(
+        weekSeconds
+      );
+
+
+  const targetSeconds =
+
+    WEEKLY_TARGET_HOURS
+    *
+    3600;
+
+
+  const percent =
+
+    Math.min(
+
+      100,
+
+      (
+        weekSeconds
+        /
+        targetSeconds
+      )
+      *
+      100
+
+    );
+
+
+  document
+    .getElementById(
+      "weeklyProgress"
+    )
+    .style.width =
+      `${percent}%`;
+
+
+  document
+    .getElementById(
+      "weeklyPercent"
+    )
+    .textContent =
+      `${Math.floor(percent)}%`;
+
+
+  const remaining =
+
+    Math.max(
+
+      0,
+
+      targetSeconds -
+      weekSeconds
+
+    );
+
+
+  document
+    .getElementById(
+      "weeklyRemaining"
+    )
+    .textContent =
+
+      remaining === 0
+
+      ? "Weekly target completed"
+
+      : `${formatHours(remaining)} remaining`;
+
+
+  const startButton =
+    document.getElementById(
+      "startTimer"
+    );
+
+
+  const finishButton =
+    document.getElementById(
+      "finishTimer"
+    );
+
+
+  if (
+    state.timerRunning
+  ) {
+
+    startButton.textContent =
+      "Pause";
+
+    finishButton.disabled =
+      false;
+
+
+    document
+      .getElementById(
+        "timerStatus"
+      )
+      .textContent =
+        "Training in progress";
+
+  }
+
+  else {
+
+    startButton.textContent =
+      sessionSeconds > 0
+      ? "Continue"
+      : "Start Training";
+
+
+    finishButton.disabled =
+      true;
+
+
+    document
+      .getElementById(
+        "timerStatus"
+      )
+      .textContent =
+        "Ready to train";
+
+  }
+
+}
+
+
+
+function startPauseTimer() {
+
+  if (
+    state.timerRunning
+  ) {
+
+    state.weeklySeconds +=
+      getCurrentSessionSeconds();
+
+
+    state.timerRunning =
+      false;
+
+
+    state.timerStartedAt =
+      null;
+
+  }
+
+  else {
+
+    state.timerRunning =
+      true;
+
+
+    state.timerStartedAt =
+      Date.now();
+
+  }
+
+
+  saveState();
+
+  updateTimerUI();
+
+}
+
+
+
+function finishTimer() {
+
+  if (
+    state.timerRunning
+  ) {
+
+    state.weeklySeconds +=
+      getCurrentSessionSeconds();
+
+  }
+
+
+  state.timerRunning =
+    false;
+
+
+  state.timerStartedAt =
+    null;
+
+
+  saveState();
+
+  updateTimerUI();
+
+}
+
+
+
+/* =========================
+   ROADMAP
+========================= */
+
+function getTrackProgress(track) {
+
+  let total = 0;
+
+  let completed = 0;
+
+
+  track.roadmap
+    .forEach(
+
+      (
+        [group, topics],
+        groupIndex
+      ) => {
+
+        topics.forEach(
+
+          (
+            topic,
+            topicIndex
+          ) => {
+
+            total++;
+
+
+            const key =
+
+              `${track.id}:` +
+              `${groupIndex}:` +
+              `${topicIndex}`;
+
+
+            if (
+              state.completed[key]
+            ) {
+
+              completed++;
+
+            }
+
+          }
+
+        );
+
+      }
+
+    );
+
+
+  return {
+
+    completed,
+    total
+
+  };
+
+}
+
+
+
+function renderTracks() {
+
+  const container =
+    document.getElementById(
+      "tracks"
+    );
+
+
+  container.innerHTML =
+
+    TRACKS
+    .map(
+
+      track => {
+
+        const progress =
+          getTrackProgress(
+            track
+          );
+
+
+        const percent =
+
+          progress.total
+
+          ? Math.round(
+
+              progress.completed
+              /
+              progress.total
+              *
+              100
+
+            )
+
+          : 0;
+
 
         return `
-          <label class="skill ${checked?"done":""}">
-            <input type="checkbox" data-key="${key}" ${checked?"checked":""}>
-            <span>${skill}</span>
-          </label>
+
+          <article
+            class="track-card"
+            data-track="${track.id}"
+          >
+
+            <div>
+
+              <div class="track-title">
+
+                <div>
+
+                  <h3>
+                    ${track.name}
+                  </h3>
+
+                  <div class="track-type">
+                    ${track.type}
+                  </div>
+
+                </div>
+
+                <div class="track-percent">
+                  ${percent}%
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="track-progress">
+
+              <div class="track-progress-meta">
+
+                <span>
+                  Roadmap Progress
+                </span>
+
+                <span>
+                  ${progress.completed}
+                  /
+                  ${progress.total}
+                </span>
+
+              </div>
+
+
+              <div class="progress">
+
+                <div
+                  style="
+                    width:${percent}%
+                  "
+                ></div>
+
+              </div>
+
+
+              <div class="track-footer">
+
+                <span>
+                  ${progress.completed}
+                  topics completed
+                </span>
+
+                <strong>
+                  Open Roadmap →
+                </strong>
+
+              </div>
+
+            </div>
+
+          </article>
+
         `;
-      }).join("")}
-    </section>
-  `).join("");
 
-  box.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
-    cb.addEventListener("change",()=>{
-      state.completed[cb.dataset.key]=cb.checked;
-      cb.closest(".skill").classList.toggle("done",cb.checked);
-      save();
-      refreshRoadmapSummary(t);
-      render();
-    });
-  });
+      }
 
-  document.getElementById("roadmapDialog").showModal();
+    )
+
+    .join("");
+
+
+  document
+    .querySelectorAll(
+      ".track-card"
+    )
+    .forEach(
+
+      card => {
+
+        card.addEventListener(
+
+          "click",
+
+          () => {
+
+            openRoadmap(
+              card.dataset.track
+            );
+
+          }
+
+        );
+
+      }
+
+    );
+
 }
 
-function refreshRoadmapSummary(track){
-  const c=completedCount(track);
-  document.getElementById("roadmapDone").textContent=`${c.done} / ${c.total}`;
-  document.getElementById("roadmapProgress").style.width=
-    `${c.total ? (c.done/c.total)*100 : 0}%`;
+
+
+/* =========================
+   OPEN ROADMAP
+========================= */
+
+function openRoadmap(
+  trackId
+) {
+
+  const track =
+    TRACKS.find(
+      item =>
+        item.id === trackId
+    );
+
+
+  if (!track) return;
+
+
+  document
+    .getElementById(
+      "roadmapTitle"
+    )
+    .textContent =
+      track.name;
+
+
+  document
+    .getElementById(
+      "roadmapType"
+    )
+    .textContent =
+      track.type;
+
+
+  const progress =
+    getTrackProgress(
+      track
+    );
+
+
+  document
+    .getElementById(
+      "roadmapDone"
+    )
+    .textContent =
+
+      `${progress.completed} / ${progress.total}`;
+
+
+  document
+    .getElementById(
+      "roadmapProgress"
+    )
+    .style.width =
+
+      `${
+
+        progress.total
+
+        ? (
+            progress.completed
+            /
+            progress.total
+            *
+            100
+          )
+
+        : 0
+
+      }%`;
+
+
+  const roadmapList =
+    document.getElementById(
+      "roadmapList"
+    );
+
+
+  roadmapList.innerHTML =
+
+    track.roadmap
+
+    .map(
+
+      (
+        [group, topics],
+        groupIndex
+      ) => {
+
+        const topicHTML =
+
+          topics
+
+          .map(
+
+            (
+              topic,
+              topicIndex
+            ) => {
+
+              const key =
+
+                `${track.id}:` +
+                `${groupIndex}:` +
+                `${topicIndex}`;
+
+
+              const completed =
+                !!state.completed[key];
+
+
+              return `
+
+                <div
+                  class="
+                    topic
+                    ${
+                      completed
+                      ? "completed"
+                      : ""
+                    }
+                  "
+                  data-track="${track.id}"
+                  data-group="${groupIndex}"
+                  data-topic="${topicIndex}"
+                >
+
+                  <span>
+                    ${topic}
+                  </span>
+
+                  <span
+                    class="topic-status"
+                  >
+
+                    ${
+                      completed
+                      ? "✓ Completed"
+                      : "Start →"
+                    }
+
+                  </span>
+
+                </div>
+
+              `;
+
+            }
+
+          )
+
+          .join("");
+
+
+        return `
+
+          <section
+            class="roadmap-group"
+          >
+
+            <h3>
+              ${group}
+            </h3>
+
+            ${topicHTML}
+
+          </section>
+
+        `;
+
+      }
+
+    )
+
+    .join("");
+
+
+  roadmapList
+    .querySelectorAll(
+      ".topic"
+    )
+    .forEach(
+
+      element => {
+
+        element
+          .addEventListener(
+
+            "click",
+
+            () => {
+
+              openQuestions(
+
+                element.dataset.track,
+
+                Number(
+                  element.dataset.group
+                ),
+
+                Number(
+                  element.dataset.topic
+                )
+
+              );
+
+            }
+
+          );
+
+      }
+
+    );
+
+
+  const dialog =
+    document.getElementById(
+      "roadmapDialog"
+    );
+
+
+  if (!dialog.open) {
+
+    dialog.showModal();
+
+  }
+
 }
 
-function setup(){
-  document.getElementById("trackSelect").innerHTML=
-    TRACKS.map(t=>`<option value="${t.id}">${t.name}</option>`).join("");
 
-  document.getElementById("openLog").addEventListener("click",()=>{
-    document.getElementById("logDialog").showModal();
-  });
 
-  document.querySelectorAll("[data-close]").forEach(btn=>{
-    btn.addEventListener("click",()=>{
-      document.getElementById(btn.dataset.close).close();
-    });
-  });
+/* =========================
+   QUESTIONS
+========================= */
 
-  document.getElementById("logForm").addEventListener("submit",e=>{
-    e.preventDefault();
+function buildQuestions(
+  topic
+) {
 
-    const topic=document.getElementById("topicInput").value.trim();
-    const h=Number(document.getElementById("hoursInput").value||0);
-    const m=Number(document.getElementById("minutesInput").value||0);
-    const duration=h+(m/60);
+  return [
 
-    if(!topic||duration<=0) return;
+    `Explain "${topic}" using your own words.`,
 
-    state.sessions.push({
-      id:Date.now(),
-      trackId:document.getElementById("trackSelect").value,
-      topic,
-      duration,
-      date:new Date().toISOString()
-    });
+    `Why is "${topic}" important in a real investigation or analysis?`,
 
-    save();
+    `What are the main concepts, artifacts, tools, or indicators related to "${topic}"?`,
 
-    e.target.reset();
-    document.getElementById("hoursInput").value=1;
-    document.getElementById("minutesInput").value=0;
+    `Give one practical example where you would use "${topic}".`,
 
-    document.getElementById("logDialog").close();
-    render();
-  });
+    `If you needed to investigate "${topic}" now, what would you check or do first?`
 
-  document.getElementById("clearAll").addEventListener("click",()=>{
-    if(!confirm("Reset all training data?")) return;
+  ];
 
-    state={sessions:[],completed:{}};
-    save();
-    render();
-  });
 }
 
-load();
-setup();
-render();
+
+
+function openQuestions(
+  trackId,
+  groupIndex,
+  topicIndex
+) {
+
+  const track =
+    TRACKS.find(
+      item =>
+        item.id === trackId
+    );
+
+
+  const topic =
+
+    track
+    .roadmap[groupIndex][1]
+    [topicIndex];
+
+
+  const key =
+
+    `${trackId}:` +
+    `${groupIndex}:` +
+    `${topicIndex}`;
+
+
+  activeTopic = {
+
+    trackId,
+    groupIndex,
+    topicIndex,
+    key,
+    topic
+
+  };
+
+
+  document
+    .getElementById(
+      "questionTopic"
+    )
+    .textContent =
+      topic;
+
+
+  const questions =
+    buildQuestions(
+      topic
+    );
+
+
+  const existingAnswers =
+    state.answers[key] || [];
+
+
+  document
+    .getElementById(
+      "questionContainer"
+    )
+    .innerHTML =
+
+      questions
+
+      .map(
+
+        (
+          question,
+          index
+        ) => `
+
+          <div
+            class="question-block"
+          >
+
+            <label>
+
+              ${index + 1}.
+              ${question}
+
+            </label>
+
+            <textarea
+              data-question="${index}"
+              required
+            >${existingAnswers[index] || ""}</textarea>
+
+          </div>
+
+        `
+
+      )
+
+      .join("");
+
+
+  document
+    .getElementById(
+      "questionDialog"
+    )
+    .showModal();
+
+}
+
+
+
+/* =========================
+   COMPLETE TOPIC
+========================= */
+
+document
+  .getElementById(
+    "questionForm"
+  )
+  .addEventListener(
+
+    "submit",
+
+    event => {
+
+      event.preventDefault();
+
+
+      if (!activeTopic) return;
+
+
+      const answers =
+
+        Array.from(
+
+          document
+          .querySelectorAll(
+            "#questionContainer textarea"
+          )
+
+        )
+
+        .map(
+
+          textarea =>
+            textarea
+            .value
+            .trim()
+
+        );
+
+
+      const allAnswered =
+
+        answers.every(
+
+          answer =>
+            answer.length > 0
+
+        );
+
+
+      if (!allAnswered) {
+
+        alert(
+          "Please answer all 5 questions first."
+        );
+
+        return;
+
+      }
+
+
+      state.answers[
+        activeTopic.key
+      ] = answers;
+
+
+      state.completed[
+        activeTopic.key
+      ] = true;
+
+
+      saveState();
+
+
+      document
+        .getElementById(
+          "questionDialog"
+        )
+        .close();
+
+
+      openRoadmap(
+        activeTopic.trackId
+      );
+
+
+      renderTracks();
+
+    }
+
+  );
+
+
+
+/* =========================
+   CLOSE BUTTONS
+========================= */
+
+document
+  .querySelectorAll(
+    "[data-close]"
+  )
+  .forEach(
+
+    button => {
+
+      button
+        .addEventListener(
+
+          "click",
+
+          () => {
+
+            document
+              .getElementById(
+                button.dataset.close
+              )
+              .close();
+
+          }
+
+        );
+
+    }
+
+  );
+
+
+
+/* =========================
+   TIMER BUTTONS
+========================= */
+
+document
+  .getElementById(
+    "startTimer"
+  )
+  .addEventListener(
+
+    "click",
+
+    startPauseTimer
+
+  );
+
+
+document
+  .getElementById(
+    "finishTimer"
+  )
+  .addEventListener(
+
+    "click",
+
+    finishTimer
+
+  );
+
+
+
+/* =========================
+   START APP
+========================= */
+
+loadState();
+
+renderTracks();
+
+updateClock();
+
+updateTimerUI();
+
+
+setInterval(
+
+  () => {
+
+    updateClock();
+
+    updateTimerUI();
+
+  },
+
+  1000
+
+);

@@ -2,117 +2,276 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, viewport-fit=cover"
+  />
   <meta name="theme-color" content="#0b0d10" />
+
   <title>Personal Training</title>
+
   <link rel="stylesheet" href="./style.css" />
 </head>
+
 <body>
+
   <main class="app">
+
+    <!-- HEADER -->
     <header class="hero">
+
       <div>
         <span class="overline">PERSONAL TRAINING</span>
+
         <h1>Technical Growth</h1>
-        <p>Track your hands-on progress, week by week.</p>
+
+        <p>
+          Study. Practice. Prove that you understand it.
+        </p>
       </div>
-      <button id="openLog" class="primary">+ Log Training</button>
+
+      <div class="live-clock-box">
+        <span>LIVE TIME</span>
+        <strong id="liveClock">--:--:--</strong>
+        <small id="liveDate">---</small>
+      </div>
+
     </header>
 
-    <section class="stats">
-      <article class="stat-card">
-        <span>This week</span>
-        <strong id="weekTotal">0h</strong>
-        <small>Across all tracks</small>
-      </article>
-      <article class="stat-card">
-        <span>Total training</span>
-        <strong id="allTotal">0h</strong>
-        <small>Since you started</small>
-      </article>
+
+    <!-- WEEKLY PROGRESS -->
+    <section class="weekly-card">
+
+      <div class="weekly-top">
+
+        <div>
+          <span class="card-label">THIS WEEK</span>
+
+          <strong id="weekTotal">
+            0h 0m
+          </strong>
+
+          <p>
+            Weekly target: 12 hours
+          </p>
+        </div>
+
+        <div class="weekly-percent">
+          <strong id="weeklyPercent">
+            0%
+          </strong>
+        </div>
+
+      </div>
+
+      <div class="progress">
+        <div id="weeklyProgress"></div>
+      </div>
+
+      <div class="weekly-bottom">
+
+        <span id="weeklyRemaining">
+          12h remaining
+        </span>
+
+        <span>
+          Target 12h
+        </span>
+
+      </div>
+
     </section>
 
+
+    <!-- TIMER -->
+    <section class="timer-card">
+
+      <div>
+
+        <span class="overline">
+          TRAINING TIMER
+        </span>
+
+        <h2 id="timerDisplay">
+          00:00:00
+        </h2>
+
+        <p id="timerStatus">
+          Ready to train
+        </p>
+
+      </div>
+
+      <div class="timer-buttons">
+
+        <button
+          id="startTimer"
+          class="primary"
+        >
+          Start Training
+        </button>
+
+        <button
+          id="finishTimer"
+          class="secondary"
+          disabled
+        >
+          Finish
+        </button>
+
+      </div>
+
+    </section>
+
+
+    <!-- ROADMAP -->
     <section class="section">
+
       <div class="section-heading">
+
         <div>
-          <span class="overline">ACTIVE TRACKS</span>
-          <h2>Technical skills</h2>
+          <span class="overline">
+            TRAINING ROADMAP
+          </span>
+
+          <h2>
+            Technical Skills
+          </h2>
         </div>
+
       </div>
 
-      <div id="tracks" class="track-grid"></div>
+      <div
+        id="tracks"
+        class="track-grid"
+      ></div>
+
     </section>
 
-    <section class="section history-section">
-      <div class="section-heading">
-        <div>
-          <span class="overline">HISTORY</span>
-          <h2>Recent training</h2>
-        </div>
-        <button id="clearAll" class="ghost">Reset</button>
-      </div>
-      <div id="recentList" class="history-card"></div>
-    </section>
+
   </main>
 
-  <dialog id="logDialog">
-    <form id="logForm" class="modal" method="dialog">
-      <div class="modal-head">
-        <div>
-          <span class="overline">NEW SESSION</span>
-          <h2>Log training</h2>
-        </div>
-        <button type="button" class="icon-btn" data-close="logDialog">×</button>
-      </div>
 
-      <label>
-        Technical skill
-        <select id="trackSelect"></select>
-      </label>
-
-      <label>
-        What did you train?
-        <input id="topicInput" type="text" placeholder="e.g. Windows Event Logs" required />
-      </label>
-
-      <div class="time-row">
-        <label>
-          Hours
-          <input id="hoursInput" type="number" min="0" max="24" value="1" />
-        </label>
-        <label>
-          Minutes
-          <input id="minutesInput" type="number" min="0" max="59" step="5" value="0" />
-        </label>
-      </div>
-
-      <button class="primary full" type="submit">Save Session</button>
-    </form>
-  </dialog>
-
+  <!-- ROADMAP MODAL -->
   <dialog id="roadmapDialog">
+
     <div class="modal">
+
       <div class="modal-head">
+
         <div>
-          <span class="overline" id="roadmapType"></span>
-          <h2 id="roadmapTitle"></h2>
+
+          <span
+            class="overline"
+            id="roadmapType"
+          ></span>
+
+          <h2
+            id="roadmapTitle"
+          ></h2>
+
         </div>
-        <button type="button" class="icon-btn" data-close="roadmapDialog">×</button>
+
+        <button
+          class="icon-btn"
+          data-close="roadmapDialog"
+        >
+          ×
+        </button>
+
       </div>
+
 
       <div class="roadmap-summary">
-        <div class="roadmap-copy">
-          <span>Roadmap progress</span>
-          <strong id="roadmapDone">0 / 0</strong>
+
+        <div>
+
+          <span>
+            Roadmap Progress
+          </span>
+
+          <strong
+            id="roadmapDone"
+          >
+            0 / 0
+          </strong>
+
         </div>
+
         <div class="roadmap-progress">
-          <div id="roadmapProgress"></div>
+          <div
+            id="roadmapProgress"
+          ></div>
         </div>
+
       </div>
 
-      <div id="roadmapList" class="roadmap-list"></div>
+
+      <div
+        id="roadmapList"
+        class="roadmap-list"
+      ></div>
+
     </div>
+
   </dialog>
 
+
+  <!-- QUESTION MODAL -->
+  <dialog id="questionDialog">
+
+    <form
+      id="questionForm"
+      class="modal question-modal"
+    >
+
+      <div class="modal-head">
+
+        <div>
+
+          <span class="overline">
+            KNOWLEDGE CHECK
+          </span>
+
+          <h2
+            id="questionTopic"
+          ></h2>
+
+        </div>
+
+        <button
+          type="button"
+          class="icon-btn"
+          data-close="questionDialog"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <p class="question-info">
+        Answer all 5 questions to mark this topic as completed.
+        This is not an exam — answer using your own understanding.
+      </p>
+
+
+      <div id="questionContainer"></div>
+
+
+      <button
+        type="submit"
+        class="primary full"
+      >
+        Complete Topic
+      </button>
+
+    </form>
+
+  </dialog>
+
+
   <script src="./app.js"></script>
+
 </body>
 </html>
