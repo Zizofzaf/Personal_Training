@@ -1,6 +1,9 @@
 const TRACKS = [
   {
-    id:"ir", name:"Incident Response", weeklyTarget:12, type:"DEFENSIVE ANALYSIS",
+    id:"ir",
+    name:"Incident Response",
+    weeklyTarget:12,
+    type:"DEFENSIVE ANALYSIS",
     roadmap:[
       ["Basics",["IR lifecycle","IOC vs IOA","MITRE ATT&CK basics","Windows basics","Linux basics","Networking basics"]],
       ["Windows",["Event Logs","Sysmon","Registry","Scheduled Tasks","Prefetch","Amcache","LNK / Jump Lists"]],
@@ -11,7 +14,10 @@ const TRACKS = [
     ]
   },
   {
-    id:"malware", name:"Malware Analysis", weeklyTarget:8, type:"REVERSE ENGINEERING",
+    id:"malware",
+    name:"Malware Analysis",
+    weeklyTarget:8,
+    type:"REVERSE ENGINEERING",
     roadmap:[
       ["Foundation",["CPU / registers","Stack / heap","x86 / x64","Windows API"]],
       ["PE & Windows",["Processes / threads","DLLs","Virtual memory","PE headers","Imports / exports","IAT / RVA"]],
@@ -22,7 +28,10 @@ const TRACKS = [
     ]
   },
   {
-    id:"cti", name:"Cyber Threat Intelligence", weeklyTarget:6, type:"THREAT RESEARCH",
+    id:"cti",
+    name:"Cyber Threat Intelligence",
+    weeklyTarget:6,
+    type:"THREAT RESEARCH",
     roadmap:[
       ["Foundation",["Intelligence lifecycle","Tactical / operational / strategic CTI","Intelligence requirements"]],
       ["IOC & OSINT",["IP / domain / URL / hash","WHOIS","DNS","Passive DNS","Certificates","ASN"]],
@@ -33,7 +42,10 @@ const TRACKS = [
     ]
   },
   {
-    id:"core", name:"Core Foundations", weeklyTarget:4, type:"FOUNDATION",
+    id:"core",
+    name:"Core Foundations",
+    weeklyTarget:4,
+    type:"FOUNDATION",
     roadmap:[
       ["Systems",["Windows","Linux","Processes / services","Users / permissions"]],
       ["Networking",["TCP/IP","DNS","HTTP","TLS","SMB","RDP"]],
@@ -44,7 +56,7 @@ const TRACKS = [
   }
 ];
 
-const KEY="personalTrainingPolishedV1";
+const KEY="personalTrainingV2";
 let state={sessions:[],completed:{}};
 
 function load(){
@@ -53,7 +65,10 @@ function load(){
     if(saved) state=JSON.parse(saved);
   }catch{}
 }
-function save(){localStorage.setItem(KEY,JSON.stringify(state))}
+
+function save(){
+  localStorage.setItem(KEY,JSON.stringify(state));
+}
 
 function weekStart(){
   const d=new Date();
@@ -62,6 +77,7 @@ function weekStart(){
   d.setDate(d.getDate()-diff);
   return d;
 }
+
 function hours(trackId,weekly=false){
   const start=weekStart();
   return state.sessions
@@ -69,12 +85,14 @@ function hours(trackId,weekly=false){
     .filter(s=>!weekly||new Date(s.date)>=start)
     .reduce((sum,s)=>sum+s.duration,0);
 }
+
 function total(weekly=false){
   const start=weekStart();
   return state.sessions
     .filter(s=>!weekly||new Date(s.date)>=start)
     .reduce((sum,s)=>sum+s.duration,0);
 }
+
 function fmt(v){
   v=v||0;
   const h=Math.floor(v);
@@ -86,13 +104,16 @@ function fmt(v){
 }
 
 function completedCount(track){
-  let done=0,total=0;
+  let done=0;
+  let total=0;
+
   track.roadmap.forEach(([_,skills],gi)=>{
     skills.forEach((__,si)=>{
       total++;
       if(state.completed[`${track.id}:${gi}:${si}`]) done++;
     });
   });
+
   return {done,total};
 }
 
@@ -100,39 +121,51 @@ function render(){
   document.getElementById("weekTotal").textContent=fmt(total(true));
   document.getElementById("allTotal").textContent=fmt(total());
 
-  document.getElementById("tracks").innerHTML=TRACKS.map(t=>{
+  const trackGrid=document.getElementById("tracks");
+
+  trackGrid.innerHTML=TRACKS.map(t=>{
     const w=hours(t.id,true);
     const all=hours(t.id);
     const pct=Math.min(100,(w/t.weeklyTarget)*100);
     const c=completedCount(t);
+
     return `
       <article class="track-card" data-track="${t.id}">
-        <div class="track-top">
+        <div class="track-head">
           <div class="track-title">
             <h3>${t.name}</h3>
             <p>${t.weeklyTarget}h weekly target</p>
           </div>
           <div class="track-total">${fmt(all)}</div>
         </div>
-        <div class="progress-wrap">
+
+        <div class="track-body">
           <div class="progress-meta">
             <span>This week</span>
             <span>${fmt(w)} / ${t.weeklyTarget}h</span>
           </div>
-          <div class="progress"><div style="width:${pct}%"></div></div>
+
+          <div class="progress">
+            <div style="width:${pct}%"></div>
+          </div>
+
+          <div class="track-foot">
+            <span>${c.done}/${c.total} roadmap skills</span>
+            <span class="open">View roadmap →</span>
+          </div>
         </div>
-        <div class="track-foot">
-          <span>${c.done}/${c.total} roadmap skills complete</span>
-          <span class="open">View roadmap →</span>
-        </div>
-      </article>`;
+      </article>
+    `;
   }).join("");
 
   document.querySelectorAll(".track-card").forEach(card=>{
-    card.addEventListener("click",()=>openRoadmap(card.dataset.track));
+    card.addEventListener("click",()=>{
+      openRoadmap(card.dataset.track);
+    });
   });
 
   const recent=document.getElementById("recentList");
+
   if(!state.sessions.length){
     recent.innerHTML=`<div class="empty">No training logged yet.</div>`;
   }else{
@@ -142,6 +175,7 @@ function render(){
       .map(s=>{
         const t=TRACKS.find(x=>x.id===s.trackId);
         const d=new Date(s.date).toLocaleDateString(undefined,{day:"2-digit",month:"short"});
+
         return `
           <div class="history-item">
             <div>
@@ -149,44 +183,46 @@ function render(){
               <span>${t?.name||""} · ${d}</span>
             </div>
             <div class="history-time">${fmt(s.duration)}</div>
-          </div>`;
+          </div>
+        `;
       }).join("");
   }
 }
 
 function openRoadmap(id){
   const t=TRACKS.find(x=>x.id===id);
-  if(!t)return;
+  if(!t) return;
 
   document.getElementById("roadmapType").textContent=t.type;
   document.getElementById("roadmapTitle").textContent=t.name;
 
-  const c=completedCount(t);
-  document.getElementById("roadmapDone").textContent=`${c.done} / ${c.total}`;
-  document.getElementById("roadmapProgress").style.width=`${c.total ? (c.done/c.total)*100 : 0}%`;
+  refreshRoadmapSummary(t);
 
   const box=document.getElementById("roadmapList");
+
   box.innerHTML=t.roadmap.map(([group,skills],gi)=>`
     <section class="roadmap-group">
       <h3>${group}</h3>
       ${skills.map((skill,si)=>{
         const key=`${id}:${gi}:${si}`;
         const checked=!!state.completed[key];
+
         return `
           <label class="skill ${checked?"done":""}">
             <input type="checkbox" data-key="${key}" ${checked?"checked":""}>
             <span>${skill}</span>
-          </label>`;
+          </label>
+        `;
       }).join("")}
     </section>
   `).join("");
 
-  box.querySelectorAll("input[type=checkbox]").forEach(cb=>{
+  box.querySelectorAll('input[type="checkbox"]').forEach(cb=>{
     cb.addEventListener("change",()=>{
       state.completed[cb.dataset.key]=cb.checked;
       cb.closest(".skill").classList.toggle("done",cb.checked);
       save();
-      openRoadmapRefresh(t);
+      refreshRoadmapSummary(t);
       render();
     });
   });
@@ -194,10 +230,11 @@ function openRoadmap(id){
   document.getElementById("roadmapDialog").showModal();
 }
 
-function openRoadmapRefresh(t){
-  const c=completedCount(t);
+function refreshRoadmapSummary(track){
+  const c=completedCount(track);
   document.getElementById("roadmapDone").textContent=`${c.done} / ${c.total}`;
-  document.getElementById("roadmapProgress").style.width=`${c.total ? (c.done/c.total)*100 : 0}%`;
+  document.getElementById("roadmapProgress").style.width=
+    `${c.total ? (c.done/c.total)*100 : 0}%`;
 }
 
 function setup(){
@@ -216,11 +253,13 @@ function setup(){
 
   document.getElementById("logForm").addEventListener("submit",e=>{
     e.preventDefault();
+
     const topic=document.getElementById("topicInput").value.trim();
     const h=Number(document.getElementById("hoursInput").value||0);
     const m=Number(document.getElementById("minutesInput").value||0);
-    const duration=h+m/60;
-    if(!topic||duration<=0)return;
+    const duration=h+(m/60);
+
+    if(!topic||duration<=0) return;
 
     state.sessions.push({
       id:Date.now(),
@@ -231,15 +270,18 @@ function setup(){
     });
 
     save();
+
     e.target.reset();
     document.getElementById("hoursInput").value=1;
     document.getElementById("minutesInput").value=0;
+
     document.getElementById("logDialog").close();
     render();
   });
 
   document.getElementById("clearAll").addEventListener("click",()=>{
-    if(!confirm("Reset all training data?"))return;
+    if(!confirm("Reset all training data?")) return;
+
     state={sessions:[],completed:{}};
     save();
     render();

@@ -19,12 +19,12 @@
     </header>
 
     <section class="stats">
-      <article>
+      <article class="stat-card">
         <span>This week</span>
         <strong id="weekTotal">0h</strong>
         <small>Across all tracks</small>
       </article>
-      <article>
+      <article class="stat-card">
         <span>Total training</span>
         <strong id="allTotal">0h</strong>
         <small>Since you started</small>
@@ -35,13 +35,14 @@
       <div class="section-heading">
         <div>
           <span class="overline">ACTIVE TRACKS</span>
-          <h2>Training programs</h2>
+          <h2>Technical skills</h2>
         </div>
       </div>
-      <div id="tracks" class="track-list"></div>
+
+      <div id="tracks" class="track-grid"></div>
     </section>
 
-    <section class="section">
+    <section class="section history-section">
       <div class="section-heading">
         <div>
           <span class="overline">HISTORY</span>
@@ -64,7 +65,7 @@
       </div>
 
       <label>
-        Training track
+        Technical skill
         <select id="trackSelect"></select>
       </label>
 
@@ -99,8 +100,8 @@
       </div>
 
       <div class="roadmap-summary">
-        <div>
-          <span>Completed</span>
+        <div class="roadmap-copy">
+          <span>Roadmap progress</span>
           <strong id="roadmapDone">0 / 0</strong>
         </div>
         <div class="roadmap-progress">

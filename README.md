@@ -1,27 +1,15 @@
-# Simple Technical Training Tracker
+# Personal Training V2
 
-A cleaner iPad-friendly version.
+This version uses a 2-column technical skill grid, designed for iPad.
 
-## Main features
-- One-page dashboard
-- Incident Response
-- Malware Analysis
-- Cyber Threat Intelligence
-- Core Foundations
-- Weekly progress
-- Quick training log
-- Simple roadmap checklist
-- Recent sessions
-- Browser localStorage
-
-## GitHub Pages
-Upload:
+## Files
 - index.html
 - style.css
 - app.js
 
-Then enable:
-Settings > Pages > Deploy from a branch > main / root
+## Update GitHub Pages
+Replace the old files in your repository with these three files.
 
 ## Important
-Data is saved only in the browser/device using localStorage.
+Training data is saved with browser localStorage.
+This means iPad and laptop do not automatically sync.
