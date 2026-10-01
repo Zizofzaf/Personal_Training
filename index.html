@@ -1,62 +1,79 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="theme-color" content="#0f1115" />
-  <title>Training Tracker</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b0d10" />
+  <title>Personal Training</title>
+  <link rel="stylesheet" href="./style.css" />
 </head>
 <body>
-  <main class="wrap">
-    <header class="header">
+  <main class="app">
+    <header class="hero">
       <div>
-        <p class="kicker">PERSONAL TRAINING</p>
+        <span class="overline">PERSONAL TRAINING</span>
         <h1>Technical Growth</h1>
+        <p>Track your hands-on progress, week by week.</p>
       </div>
-      <button id="openLog" class="add-btn">+ Log</button>
+      <button id="openLog" class="primary">+ Log Training</button>
     </header>
 
-    <section class="summary">
-      <div>
+    <section class="stats">
+      <article>
         <span>This week</span>
         <strong id="weekTotal">0h</strong>
-      </div>
-      <div>
-        <span>Total</span>
+        <small>Across all tracks</small>
+      </article>
+      <article>
+        <span>Total training</span>
         <strong id="allTotal">0h</strong>
-      </div>
+        <small>Since you started</small>
+      </article>
     </section>
 
-    <section id="tracks" class="tracks"></section>
-
-    <section class="recent">
-      <div class="section-title">
-        <h2>Recent</h2>
-        <button id="clearAll" class="text-btn">Reset</button>
+    <section class="section">
+      <div class="section-heading">
+        <div>
+          <span class="overline">ACTIVE TRACKS</span>
+          <h2>Training programs</h2>
+        </div>
       </div>
-      <div id="recentList" class="recent-list"></div>
+      <div id="tracks" class="track-list"></div>
+    </section>
+
+    <section class="section">
+      <div class="section-heading">
+        <div>
+          <span class="overline">HISTORY</span>
+          <h2>Recent training</h2>
+        </div>
+        <button id="clearAll" class="ghost">Reset</button>
+      </div>
+      <div id="recentList" class="history-card"></div>
     </section>
   </main>
 
   <dialog id="logDialog">
-    <form id="logForm" method="dialog" class="sheet">
-      <div class="sheet-head">
-        <h2>Log training</h2>
-        <button type="button" class="close" data-close="logDialog">×</button>
+    <form id="logForm" class="modal" method="dialog">
+      <div class="modal-head">
+        <div>
+          <span class="overline">NEW SESSION</span>
+          <h2>Log training</h2>
+        </div>
+        <button type="button" class="icon-btn" data-close="logDialog">×</button>
       </div>
 
       <label>
-        Track
+        Training track
         <select id="trackSelect"></select>
       </label>
 
       <label>
-        Topic
-        <input id="topicInput" placeholder="What did you train?" required />
+        What did you train?
+        <input id="topicInput" type="text" placeholder="e.g. Windows Event Logs" required />
       </label>
 
-      <div class="time-grid">
+      <div class="time-row">
         <label>
           Hours
           <input id="hoursInput" type="number" min="0" max="24" value="1" />
@@ -67,24 +84,34 @@
         </label>
       </div>
 
-      <button class="save-btn" type="submit">Save</button>
+      <button class="primary full" type="submit">Save Session</button>
     </form>
   </dialog>
 
   <dialog id="roadmapDialog">
-    <div class="sheet">
-      <div class="sheet-head">
+    <div class="modal">
+      <div class="modal-head">
         <div>
-          <p class="kicker" id="roadmapType"></p>
+          <span class="overline" id="roadmapType"></span>
           <h2 id="roadmapTitle"></h2>
         </div>
-        <button type="button" class="close" data-close="roadmapDialog">×</button>
+        <button type="button" class="icon-btn" data-close="roadmapDialog">×</button>
+      </div>
+
+      <div class="roadmap-summary">
+        <div>
+          <span>Completed</span>
+          <strong id="roadmapDone">0 / 0</strong>
+        </div>
+        <div class="roadmap-progress">
+          <div id="roadmapProgress"></div>
+        </div>
       </div>
 
       <div id="roadmapList" class="roadmap-list"></div>
     </div>
   </dialog>
 
-  <script src="app.js"></script>
+  <script src="./app.js"></script>
 </body>
 </html>
