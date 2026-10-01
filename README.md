@@ -1,27 +1,27 @@
-# Technical Training V1
+# Simple Technical Training Tracker
 
-A personal training tracker for:
+A cleaner iPad-friendly version.
+
+## Main features
+- One-page dashboard
 - Incident Response
 - Malware Analysis
 - Cyber Threat Intelligence
-- Core Technical Foundations
-
-## Run locally
-Open `index.html` in a browser.
+- Core Foundations
+- Weekly progress
+- Quick training log
+- Simple roadmap checklist
+- Recent sessions
+- Browser localStorage
 
 ## GitHub Pages
-1. Create a new GitHub repository.
-2. Upload `index.html`, `style.css`, and `app.js`.
-3. Go to Settings > Pages.
-4. Choose `Deploy from a branch`.
-5. Select `main` and `/root`.
-6. Save.
+Upload:
+- index.html
+- style.css
+- app.js
+
+Then enable:
+Settings > Pages > Deploy from a branch > main / root
 
 ## Important
-V1 stores your data using browser `localStorage`.
-That means:
-- Data stays on the same browser/device.
-- iPad Safari and laptop Chrome will NOT automatically sync.
-- Clearing browser/site data can remove the saved training history.
-
-A later version can add cloud sync.
+Data is saved only in the browser/device using localStorage.

@@ -1,380 +1,203 @@
-const DEFAULT_PROGRAMS = [
+const TRACKS = [
   {
     id: "ir",
     name: "Incident Response",
-    category: "Defensive Analysis",
     weeklyTarget: 12,
-    durationWeeks: 52,
+    type: "DEFENSIVE ANALYSIS",
     roadmap: [
-      ["Phase 1 — Fundamentals", [
-        "Incident Response lifecycle", "IOC vs IOA", "MITRE ATT&CK basics",
-        "Windows fundamentals", "Linux fundamentals", "TCP/IP, DNS, HTTP, SMB, RDP"
-      ]],
-      ["Phase 2 — Windows Investigation", [
-        "Windows Event Logs", "Security.evtx", "PowerShell logs", "Sysmon",
-        "Windows Registry", "Scheduled Tasks", "Prefetch", "Amcache", "Shimcache",
-        "LNK files", "Jump Lists", "Browser artifacts", "SRUM"
-      ]],
-      ["Phase 3 — Disk & Memory Forensics", [
-        "Disk image concepts", "MBR / GPT", "Deleted files", "File carving",
-        "Timeline analysis", "Autopsy", "FTK Imager", "KAPE",
-        "Volatility 3", "Process analysis", "Memory network connections"
-      ]],
-      ["Phase 4 — Network Investigation", [
-        "PCAP analysis", "Wireshark", "TCP streams", "DNS analysis",
-        "HTTP analysis", "TLS basics", "Beaconing", "C2 traffic patterns", "Zeek basics"
-      ]],
-      ["Phase 5 — Incident Cases", [
-        "Phishing", "Malware infection", "Credential theft", "Ransomware",
-        "Account compromise", "Lateral movement", "Persistence", "Data exfiltration"
-      ]],
-      ["Phase 6 — Investigation & Reporting", [
-        "Build attack timeline", "Identify initial access", "Determine scope",
-        "Find persistence", "Trace lateral movement", "Extract IOCs",
-        "MITRE ATT&CK mapping", "Technical report", "Executive summary"
-      ]]
+      ["Basics", ["IR lifecycle", "IOC vs IOA", "MITRE ATT&CK basics", "Windows basics", "Linux basics", "Networking basics"]],
+      ["Windows", ["Event Logs", "Sysmon", "Registry", "Scheduled Tasks", "Prefetch", "Amcache", "LNK / Jump Lists"]],
+      ["Forensics", ["Disk imaging", "Timeline analysis", "Autopsy", "FTK Imager", "KAPE", "Volatility 3"]],
+      ["Network", ["Wireshark", "PCAP analysis", "DNS", "HTTP", "TLS", "Beaconing / C2"]],
+      ["Cases", ["Phishing", "Malware infection", "Credential theft", "Ransomware", "Lateral movement", "Data exfiltration"]],
+      ["Reporting", ["Attack timeline", "Determine scope", "Extract IOCs", "ATT&CK mapping", "Technical report"]]
     ]
   },
   {
     id: "malware",
     name: "Malware Analysis",
-    category: "Reverse Engineering",
     weeklyTarget: 8,
-    durationWeeks: 52,
+    type: "REVERSE ENGINEERING",
     roadmap: [
-      ["Phase 1 — Foundations", [
-        "CPU basics", "Registers", "Stack", "Heap", "Memory",
-        "Calling conventions", "x86 basics", "x64 basics", "Windows API basics"
-      ]],
-      ["Phase 2 — Windows Internals & PE", [
-        "Processes", "Threads", "Handles", "DLLs", "Virtual memory",
-        "PE headers", "Sections", "Imports", "Exports", "Resources", "IAT", "RVA"
-      ]],
-      ["Phase 3 — Static Analysis", [
-        "Hashing", "Strings", "Metadata", "PE structure", "Suspicious APIs",
-        "Entropy", "Pack detection", "PEStudio", "Detect It Easy", "FLOSS", "capa"
-      ]],
-      ["Phase 4 — Dynamic Analysis", [
-        "Safe malware lab", "Process Monitor", "Process Explorer", "TCPView",
-        "Wireshark", "FakeNet-NG", "Regshot", "File / Registry / Network behavior"
-      ]],
-      ["Phase 5 — Debugging & Reverse Engineering", [
-        "Breakpoints", "Registers", "Stack", "Memory view", "Stepping",
-        "API breakpoints", "x64dbg", "WinDbg basics", "Ghidra", "IDA basics",
-        "Control flow", "Cross references", "Decompiler"
-      ]],
-      ["Phase 6 — Malware Behaviors", [
-        "Persistence", "Process injection", "DLL injection", "Process hollowing",
-        "Credential theft", "C2 communication", "Downloaders", "Droppers",
-        "Loaders", "RATs", "Ransomware"
-      ]],
-      ["Phase 7 — Advanced Analysis & Detection", [
-        "Packing", "Unpacking", "Obfuscation", "Anti-debugging", "Anti-VM",
-        "API hashing", "Shellcode", "Config extraction", "YARA", "Sigma basics",
-        "Behavioral detection", "MITRE ATT&CK mapping"
-      ]]
+      ["Foundation", ["CPU / registers", "Stack / heap", "x86 / x64", "Windows API"]],
+      ["PE & Windows", ["Processes / threads", "DLLs", "Virtual memory", "PE headers", "Imports / exports", "IAT / RVA"]],
+      ["Static", ["Hashes", "Strings", "PEStudio", "Detect It Easy", "FLOSS", "capa"]],
+      ["Dynamic", ["Procmon", "Process Explorer", "TCPView", "Wireshark", "FakeNet-NG", "Regshot"]],
+      ["Reverse Engineering", ["x64dbg", "WinDbg basics", "Ghidra", "IDA basics", "Control flow", "Cross references"]],
+      ["Advanced", ["Packing", "Unpacking", "Obfuscation", "Anti-debugging", "Shellcode", "Config extraction", "YARA"]]
     ]
   },
   {
     id: "cti",
     name: "Cyber Threat Intelligence",
-    category: "Threat Research",
     weeklyTarget: 6,
-    durationWeeks: 52,
+    type: "THREAT RESEARCH",
     roadmap: [
-      ["Phase 1 — CTI Fundamentals", [
-        "Data vs information vs intelligence", "Tactical intelligence",
-        "Operational intelligence", "Strategic intelligence",
-        "Intelligence lifecycle", "Intelligence requirements"
-      ]],
-      ["Phase 2 — IOC & OSINT", [
-        "IP, Domain, URL, Hash", "Email indicators", "Certificates",
-        "WHOIS", "DNS", "Passive DNS", "Certificate Transparency",
-        "ASN", "Hosting providers", "GitHub research", "Social media research"
-      ]],
-      ["Phase 3 — Threat Actor Analysis", [
-        "Threat actor profiles", "APT groups", "Cybercrime groups",
-        "Ransomware groups", "Initial access brokers", "Vendor naming differences"
-      ]],
-      ["Phase 4 — MITRE ATT&CK", [
-        "Tactics", "Techniques", "Sub-techniques", "Procedures",
-        "ATT&CK Navigator", "Mapping reports", "Comparing campaigns"
-      ]],
-      ["Phase 5 — Infrastructure Tracking", [
-        "Domain pivoting", "IP pivoting", "ASN relationships", "Certificates",
-        "Historical infrastructure", "Hosting patterns", "Infrastructure clustering"
-      ]],
-      ["Phase 6 — Campaign & Malware Intelligence", [
-        "Malware families", "C2 infrastructure", "Campaign tracking",
-        "Victimology", "Timeline analysis", "TTP comparison", "Confidence levels"
-      ]],
-      ["Phase 7 — Intelligence Reporting", [
-        "Intelligence question", "Key findings", "Evidence",
-        "Confidence assessment", "IOC table", "ATT&CK mapping",
-        "Technical report", "Executive report"
-      ]]
+      ["Foundation", ["Intelligence lifecycle", "Tactical / operational / strategic CTI", "Intelligence requirements"]],
+      ["IOC & OSINT", ["IP / domain / URL / hash", "WHOIS", "DNS", "Passive DNS", "Certificates", "ASN"]],
+      ["Threat Actors", ["APT groups", "Cybercrime groups", "Ransomware groups", "Vendor naming differences"]],
+      ["MITRE ATT&CK", ["Tactics", "Techniques", "Sub-techniques", "ATT&CK Navigator"]],
+      ["Infrastructure", ["Domain pivoting", "IP pivoting", "ASN relationships", "Infrastructure clustering"]],
+      ["Reporting", ["Campaign timeline", "Confidence levels", "IOC table", "ATT&CK mapping", "Technical report"]]
     ]
   },
   {
     id: "core",
-    name: "Core Technical Foundations",
-    category: "Foundation",
+    name: "Core Foundations",
     weeklyTarget: 4,
-    durationWeeks: 52,
+    type: "FOUNDATION",
     roadmap: [
-      ["Systems", [
-        "Windows fundamentals", "Linux fundamentals", "Processes and services",
-        "Users and permissions", "NTFS basics", "EXT basics"
-      ]],
-      ["Networking", [
-        "TCP/IP", "DNS", "HTTP", "TLS", "SMB", "RDP", "Routing basics",
-        "Ports and sockets", "Packet capture basics"
-      ]],
-      ["Scripting & Data", [
-        "Python", "PowerShell", "Bash", "Git", "Regex", "JSON", "CSV", "SQL"
-      ]],
-      ["Security Foundations", [
-        "Hashing", "Encoding", "Base64", "Basic cryptography",
-        "Logs", "Sysmon", "MITRE ATT&CK"
-      ]],
-      ["Investigation Mindset", [
-        "Ask good questions", "Build timelines", "Validate assumptions",
-        "Correlate artifacts", "Separate fact from hypothesis",
-        "Document evidence", "Assign confidence", "Reproduce findings"
-      ]]
+      ["Systems", ["Windows", "Linux", "Processes / services", "Users / permissions"]],
+      ["Networking", ["TCP/IP", "DNS", "HTTP", "TLS", "SMB", "RDP"]],
+      ["Scripting", ["Python", "PowerShell", "Bash", "Git", "Regex", "JSON", "SQL"]],
+      ["Security", ["Hashing", "Encoding", "Base64", "Logs", "Sysmon", "MITRE ATT&CK"]],
+      ["Mindset", ["Build timelines", "Validate assumptions", "Correlate artifacts", "Document evidence", "Assign confidence"]]
     ]
   }
 ];
 
-const STORAGE_KEY = "technicalTrainingV1";
-const START_DATE_KEY = "technicalTrainingStartDate";
+const KEY = "simpleTrainingTrackerV1";
+let state = { sessions: [], completed: {} };
 
-const state = {
-  programs: DEFAULT_PROGRAMS,
-  sessions: [],
-  completed: {}
-};
-
-function loadState() {
-  const saved = localStorage.getItem(STORAGE_KEY);
+function load() {
+  const saved = localStorage.getItem(KEY);
   if (saved) {
-    try {
-      const parsed = JSON.parse(saved);
-      state.sessions = parsed.sessions || [];
-      state.completed = parsed.completed || {};
-    } catch {}
-  }
-  if (!localStorage.getItem(START_DATE_KEY)) {
-    localStorage.setItem(START_DATE_KEY, new Date().toISOString());
+    try { state = JSON.parse(saved); } catch {}
   }
 }
 
-function saveState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify({
-    sessions: state.sessions,
-    completed: state.completed
-  }));
+function save() {
+  localStorage.setItem(KEY, JSON.stringify(state));
 }
 
-function startOfWeek(date = new Date()) {
-  const d = new Date(date);
-  const day = d.getDay();
-  const diff = (day + 6) % 7;
+function weekStart() {
+  const d = new Date();
+  const diff = (d.getDay() + 6) % 7;
   d.setHours(0,0,0,0);
   d.setDate(d.getDate() - diff);
   return d;
 }
 
-function hoursForProgram(programId, weeklyOnly = false) {
-  const weekStart = startOfWeek();
+function hours(trackId, weekly=false) {
+  const start = weekStart();
   return state.sessions
-    .filter(s => s.programId === programId)
-    .filter(s => !weeklyOnly || new Date(s.date) >= weekStart)
-    .reduce((sum, s) => sum + s.duration, 0);
+    .filter(s => s.trackId === trackId)
+    .filter(s => !weekly || new Date(s.date) >= start)
+    .reduce((a,b) => a + b.duration, 0);
 }
 
-function totalHours(weeklyOnly = false) {
-  const weekStart = startOfWeek();
+function total(weekly=false) {
+  const start = weekStart();
   return state.sessions
-    .filter(s => !weeklyOnly || new Date(s.date) >= weekStart)
-    .reduce((sum, s) => sum + s.duration, 0);
+    .filter(s => !weekly || new Date(s.date) >= start)
+    .reduce((a,b) => a + b.duration, 0);
 }
 
-function formatHours(value) {
-  if (!value) return "0h";
-  const h = Math.floor(value);
-  const m = Math.round((value - h) * 60);
-  return m ? `${h}h ${m}m` : `${h}h`;
+function fmt(v) {
+  const h = Math.floor(v || 0);
+  const m = Math.round(((v || 0) - h) * 60);
+  if (!h && !m) return "0h";
+  if (!m) return `${h}h`;
+  if (!h) return `${m}m`;
+  return `${h}h ${m}m`;
 }
 
-function currentTrainingWeek() {
-  const start = new Date(localStorage.getItem(START_DATE_KEY));
-  const now = new Date();
-  const diffDays = Math.max(0, Math.floor((now - start) / 86400000));
-  return Math.floor(diffDays / 7) + 1;
-}
+function render() {
+  document.getElementById("weekTotal").textContent = fmt(total(true));
+  document.getElementById("allTotal").textContent = fmt(total());
 
-function renderDashboard() {
-  document.getElementById("totalHours").textContent = formatHours(totalHours());
-  document.getElementById("weekHours").textContent = formatHours(totalHours(true));
-  document.getElementById("activePrograms").textContent = state.programs.length;
-  document.getElementById("currentWeek").textContent = `Week ${currentTrainingWeek()}`;
-
-  const grid = document.getElementById("programGrid");
-  grid.innerHTML = "";
-
-  state.programs.forEach(program => {
-    const total = hoursForProgram(program.id);
-    const weekly = hoursForProgram(program.id, true);
-    const percent = Math.min(100, (weekly / program.weeklyTarget) * 100);
-
-    const card = document.createElement("article");
-    card.className = "program-card";
-    card.innerHTML = `
-      <div class="program-top">
-        <div>
-          <p class="eyebrow">${program.category.toUpperCase()}</p>
-          <h3>${program.name}</h3>
-          <div class="meta">${program.durationWeeks} week program · ${program.weeklyTarget}h/week</div>
-        </div>
-        <span class="badge">${formatHours(total)}</span>
-      </div>
-
-      <div class="progress-block">
-        <div class="progress-meta">
-          <span>This week</span>
-          <span>${formatHours(weekly)} / ${program.weeklyTarget}h</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" style="width:${percent}%"></div>
-        </div>
-      </div>
-
-      <div class="card-footer">
-        <span>${Math.round(percent)}% weekly target</span>
-        <span>Open roadmap →</span>
-      </div>
-    `;
-    card.addEventListener("click", () => openProgram(program.id));
-    grid.appendChild(card);
-  });
-
-  renderHistory();
-}
-
-function renderHistory() {
-  const list = document.getElementById("historyList");
-  if (!state.sessions.length) {
-    list.innerHTML = `<div class="empty-state">No training logged yet. Start with your first session.</div>`;
-    return;
-  }
-
-  const sorted = [...state.sessions].sort((a,b) => new Date(b.date) - new Date(a.date));
-  list.innerHTML = sorted.slice(0, 12).map(session => {
-    const program = state.programs.find(p => p.id === session.programId);
-    const date = new Date(session.date);
+  const tracks = document.getElementById("tracks");
+  tracks.innerHTML = TRACKS.map(t => {
+    const week = hours(t.id, true);
+    const overall = hours(t.id);
+    const pct = Math.min(100, (week / t.weeklyTarget) * 100);
     return `
-      <div class="history-item">
-        <div class="history-date">${date.toLocaleDateString(undefined, {day:"2-digit", month:"short"})}</div>
-        <div class="history-main">
-          <strong>${session.topic}</strong>
-          <span>${program?.name || "Unknown"} · ${session.type}</span>
+      <article class="track" data-track="${t.id}">
+        <div class="track-top">
+          <div>
+            <h3>${t.name}</h3>
+            <div class="track-meta">${t.weeklyTarget}h/week · tap for roadmap</div>
+          </div>
+          <div class="track-hours">${fmt(overall)}</div>
         </div>
-        <div class="history-hours">${formatHours(session.duration)}</div>
-      </div>
+        <div class="progress-row">
+          <div class="progress-meta">
+            <span>This week</span>
+            <span>${fmt(week)} / ${t.weeklyTarget}h</span>
+          </div>
+          <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
+        </div>
+      </article>
     `;
   }).join("");
-}
 
-function openProgram(programId) {
-  const program = state.programs.find(p => p.id === programId);
-  if (!program) return;
-
-  const total = hoursForProgram(program.id);
-  const weekly = hoursForProgram(program.id, true);
-  const percent = Math.min(100, (weekly / program.weeklyTarget) * 100);
-
-  document.getElementById("dialogProgramType").textContent = program.category.toUpperCase();
-  document.getElementById("dialogProgramName").textContent = program.name;
-  document.getElementById("dialogHours").textContent = formatHours(total);
-  document.getElementById("dialogWeekHours").textContent = formatHours(weekly);
-  document.getElementById("dialogTarget").textContent = `${program.weeklyTarget}h`;
-  document.getElementById("dialogProgressText").textContent = `${Math.round(percent)}%`;
-  document.getElementById("dialogProgressBar").style.width = `${percent}%`;
-
-  const roadmapList = document.getElementById("roadmapList");
-  roadmapList.innerHTML = "";
-
-  program.roadmap.forEach(([phaseName, skills], phaseIndex) => {
-    const phase = document.createElement("section");
-    phase.className = "roadmap-phase";
-    const skillsHtml = skills.map((skill, skillIndex) => {
-      const key = `${program.id}:${phaseIndex}:${skillIndex}`;
-      const checked = !!state.completed[key];
-      return `
-        <div class="skill-item ${checked ? "done" : ""}">
-          <input type="checkbox" data-skill-key="${key}" ${checked ? "checked" : ""}>
-          <label>${skill}</label>
-        </div>
-      `;
-    }).join("");
-
-    phase.innerHTML = `<h4>${phaseName}</h4>${skillsHtml}`;
-    roadmapList.appendChild(phase);
+  document.querySelectorAll(".track").forEach(el => {
+    el.addEventListener("click", () => openRoadmap(el.dataset.track));
   });
 
-  roadmapList.querySelectorAll("input[type=checkbox]").forEach(box => {
-    box.addEventListener("change", e => {
-      const key = e.target.dataset.skillKey;
-      state.completed[key] = e.target.checked;
-      saveState();
-      e.target.closest(".skill-item").classList.toggle("done", e.target.checked);
+  const recent = document.getElementById("recentList");
+  if (!state.sessions.length) {
+    recent.innerHTML = `<div class="empty">No training logged yet.</div>`;
+  } else {
+    recent.innerHTML = [...state.sessions]
+      .sort((a,b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 8)
+      .map(s => {
+        const t = TRACKS.find(x => x.id === s.trackId);
+        const d = new Date(s.date).toLocaleDateString(undefined, {day:"2-digit", month:"short"});
+        return `
+          <div class="recent-item">
+            <div>
+              <strong>${s.topic}</strong>
+              <span>${t?.name || ""} · ${d}</span>
+            </div>
+            <div class="recent-time">${fmt(s.duration)}</div>
+          </div>
+        `;
+      }).join("");
+  }
+}
+
+function openRoadmap(trackId) {
+  const t = TRACKS.find(x => x.id === trackId);
+  if (!t) return;
+
+  document.getElementById("roadmapType").textContent = t.type;
+  document.getElementById("roadmapTitle").textContent = t.name;
+
+  const box = document.getElementById("roadmapList");
+  box.innerHTML = t.roadmap.map(([group, skills], gi) => `
+    <section class="roadmap-group">
+      <h3>${group}</h3>
+      ${skills.map((skill, si) => {
+        const key = `${trackId}:${gi}:${si}`;
+        const checked = !!state.completed[key];
+        return `
+          <label class="skill ${checked ? "done" : ""}">
+            <input type="checkbox" data-key="${key}" ${checked ? "checked" : ""}>
+            <span>${skill}</span>
+          </label>
+        `;
+      }).join("")}
+    </section>
+  `).join("");
+
+  box.querySelectorAll("input[type=checkbox]").forEach(cb => {
+    cb.addEventListener("change", () => {
+      state.completed[cb.dataset.key] = cb.checked;
+      cb.closest(".skill").classList.toggle("done", cb.checked);
+      save();
     });
   });
 
-  document.getElementById("programDialog").showModal();
+  document.getElementById("roadmapDialog").showModal();
 }
 
-function setupLogForm() {
-  const select = document.getElementById("logProgram");
-  select.innerHTML = state.programs.map(p => `<option value="${p.id}">${p.name}</option>`).join("");
+function setup() {
+  document.getElementById("trackSelect").innerHTML =
+    TRACKS.map(t => `<option value="${t.id}">${t.name}</option>`).join("");
 
-  document.getElementById("logForm").addEventListener("submit", e => {
-    e.preventDefault();
-    const hours = Number(document.getElementById("logHours").value || 0);
-    const minutes = Number(document.getElementById("logMinutes").value || 0);
-    const duration = hours + (minutes / 60);
-
-    if (duration <= 0) {
-      alert("Enter a training duration greater than 0.");
-      return;
-    }
-
-    state.sessions.push({
-      id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}`,
-      programId: select.value,
-      topic: document.getElementById("logTopic").value.trim(),
-      duration,
-      type: document.getElementById("logType").value,
-      notes: document.getElementById("logNotes").value.trim(),
-      date: new Date().toISOString()
-    });
-
-    saveState();
-    document.getElementById("logForm").reset();
-    document.getElementById("logHours").value = 1;
-    document.getElementById("logMinutes").value = 0;
-    document.getElementById("logDialog").close();
-    renderDashboard();
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  loadState();
-  setupLogForm();
-  renderDashboard();
-
-  document.getElementById("openLogBtn").addEventListener("click", () => {
+  document.getElementById("openLog").addEventListener("click", () => {
     document.getElementById("logDialog").showModal();
   });
 
@@ -384,14 +207,40 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  document.getElementById("resetBtn").addEventListener("click", () => {
-    const ok = confirm("Reset all training logs and roadmap progress?");
-    if (!ok) return;
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(START_DATE_KEY);
-    state.sessions = [];
-    state.completed = {};
-    loadState();
-    renderDashboard();
+  document.getElementById("logForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const topic = document.getElementById("topicInput").value.trim();
+    const h = Number(document.getElementById("hoursInput").value || 0);
+    const m = Number(document.getElementById("minutesInput").value || 0);
+    const duration = h + m / 60;
+
+    if (!topic || duration <= 0) return;
+
+    state.sessions.push({
+      id: Date.now(),
+      trackId: document.getElementById("trackSelect").value,
+      topic,
+      duration,
+      date: new Date().toISOString()
+    });
+
+    save();
+    e.target.reset();
+    document.getElementById("hoursInput").value = 1;
+    document.getElementById("minutesInput").value = 0;
+    document.getElementById("logDialog").close();
+    render();
   });
-});
+
+  document.getElementById("clearAll").addEventListener("click", () => {
+    if (!confirm("Reset all training data?")) return;
+    state = { sessions: [], completed: {} };
+    save();
+    render();
+  });
+}
+
+load();
+setup();
+render();
